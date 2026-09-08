@@ -15,7 +15,7 @@ Campus Resource Finder is a website that will help CCNY students discover and ac
 
 
 
-- **Search by name or type** — A search bar that lets students type either a specific resource ("Writing Center") or a general category ("tutoring", "food") and returns matching results in real time as they type. (Firdosi)
+- **Search by name or type** — A search bar that lets students type either a specific resource ("Writing Center") or a general category ("tutoring", "food") and returns matching results in real time as they type. (Ferdosi)
 
 - **Filter by location** — Narrows results to a specific building or campus area (North Academic Center, Marshak, Shepard Hall, etc.) so students can find what's closest to where they already are. (Rahat Hossain)
 
