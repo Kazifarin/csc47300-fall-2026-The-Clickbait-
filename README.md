@@ -17,8 +17,6 @@ Campus Resource Finder is a website that will help CCNY students discover and ac
 
 - **Search by name or type** — A search bar that lets students type either a specific resource ("Writing Center") or a general category ("tutoring", "food") and returns matching results in real time as they type. (Ferdosi)
 
-- **Filter by location** — Narrows results to a specific building or campus area (North Academic Center, Marshak, Shepard Hall, etc.) so students can find what's closest to where they already are. (Rahat Hossain)
-
 - **Hours and open-now status** — Each resource lists its weekly hours and shows a live indicator comparing the current time against those hours, so students know before walking over whether the office is open.(Mehzabin)
 
 - **Student reviews and ratings** — Students can leave a 1–5 star rating and a written comment on any resource. Each resource page shows its average rating and a list of past reviews to help others decide where to go.(Aung)
@@ -30,7 +28,6 @@ Campus Resource Finder is a website that will help CCNY students discover and ac
 - **Frontend**: HTML, CSS, JavaScript
 - **Backend**: Node.js with Express.js
 - **Database**: MongoDB
-- **Map**: Google Maps API
 
 ## Development Plan
 
