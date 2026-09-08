@@ -13,17 +13,17 @@ Campus Resource Finder is a website that will help CCNY students discover and ac
 
 ## Planned Features
 
-- **Interactive map** — Displays every campus resource as a pin on a Google Map of the CCNY campus. Clicking a pin opens a popup with the resource name, building, and a link to its full detail page.
 
-- **Search by name or type** — A search bar that lets students type either a specific resource ("Writing Center") or a general category ("tutoring", "food") and returns matching results in real time as they type.
 
-- **Filter by location** — Narrows results to a specific building or campus area (North Academic Center, Marshak, Shepard Hall, etc.) so students can find what's closest to where they already are.
+- **Search by name or type** — A search bar that lets students type either a specific resource ("Writing Center") or a general category ("tutoring", "food") and returns matching results in real time as they type. (Firdosi)
 
-- **Hours and open-now status** — Each resource lists its weekly hours and shows a live indicator comparing the current time against those hours, so students know before walking over whether the office is open.
+- **Filter by location** — Narrows results to a specific building or campus area (North Academic Center, Marshak, Shepard Hall, etc.) so students can find what's closest to where they already are. (Rahat Hossain)
 
-- **Student reviews and ratings** — Students can leave a 1–5 star rating and a written comment on any resource. Each resource page shows its average rating and a list of past reviews to help others decide where to go.
+- **Hours and open-now status** — Each resource lists its weekly hours and shows a live indicator comparing the current time against those hours, so students know before walking over whether the office is open.(Mehzabin)
 
-- **Responsive design** — The layout adapts to phone, tablet, and desktop screens, since most students will be looking this up on their phones while walking between classes.
+- **Student reviews and ratings** — Students can leave a 1–5 star rating and a written comment on any resource. Each resource page shows its average rating and a list of past reviews to help others decide where to go.(Aung)
+
+- **Responsive design** — The layout adapts to phone, tablet, and desktop screens, since most students will be looking this up on their phones while walking between classes.(Rahat Hossain)
 
 ## Tech Stack
 
