@@ -1,4 +1,4 @@
-# csc47300-fall-2026-The-Clickbait-
+# csc47300-fall-2026-Clickbait
 
 **Team**: Clickbait  
 **Course**: CSc 47300 - Website Design  
