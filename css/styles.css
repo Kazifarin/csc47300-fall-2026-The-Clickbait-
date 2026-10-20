@@ -479,6 +479,31 @@ mark {
   place-items: center;
   animation: campus-float 9s ease-in-out infinite;
 }
+.model-float::before,
+.model-float::after {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  height: 2px;
+  border-radius: 999px;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(90deg, rgba(255, 255, 255, .95), rgba(190, 157, 211, .72) 38%, transparent);
+  filter: drop-shadow(0 0 5px rgba(174, 137, 199, .72));
+  animation: shooting-star 7.8s ease-in-out infinite;
+}
+.model-float::before {
+  top: 21%;
+  right: 12%;
+  width: 42px;
+}
+.model-float::after {
+  right: 26%;
+  bottom: 24%;
+  width: 31px;
+  animation-delay: -3.6s;
+  animation-duration: 8.6s;
+}
 .model-float img {
   width: 100%;
   height: auto;
@@ -597,7 +622,9 @@ mark {
   opacity: .15;
 }
 .campus-scene[data-active=false] .model-float,
-.campus-scene[data-active=false] .particles i {
+.campus-scene[data-active=false] .particles i,
+.campus-scene[data-active=false] .model-float::before,
+.campus-scene[data-active=false] .model-float::after {
   animation-play-state: paused;
 }
 :root[data-theme=dark] .model-float img {
@@ -1616,6 +1643,23 @@ form > .muted.small {
   50% {
     transform: translate3d(10px, -23px, 0);
     opacity: .32;
+  }
+}
+@keyframes shooting-star {
+  0%, 67% {
+    opacity: 0;
+    transform: translate3d(14px, -9px, 0) rotate(-28deg) scale(.72);
+  }
+  71% {
+    opacity: .9;
+  }
+  83% {
+    opacity: 0;
+    transform: translate3d(-52px, 33px, 0) rotate(-28deg) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(-52px, 33px, 0) rotate(-28deg) scale(1);
   }
 }
 @keyframes dialog-in {
