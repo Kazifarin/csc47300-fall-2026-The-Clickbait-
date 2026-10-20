@@ -3,7 +3,7 @@ Team Clickbait · CSc 47300 · City College of New York
 Approximate delivery time: 4–5 minutes, plus the live demo
 
 SLIDE 1 — CAMPUS RESOURCE FINDER
-Hi everyone. We’re Team Clickbait, and this is Campus Atlas, our Campus Resource Finder for CCNY. The goal is to give students one clear place to begin when they are looking for campus support. I’ll walk through the interface, show how each assigned feature fits into it, and be clear about what this frontend prototype does today.
+Hi everyone. We’re Team Clickbait, and this is Campus Resource Finder for CCNY. The goal is to give students one clear place to begin when they are looking for campus support. I’ll walk through the interface, show how each assigned feature fits into it, and be clear about what this frontend prototype does today.
 
 SLIDE 2 — THE EXPERIENCE
 This is the current interface. Search sits at the top, and the discovery links offer a few common ways to browse. The results area combines category, open-now, and saved-resource filters. The campus artwork is illustrative only; it is labeled in the site so viewers do not mistake it for a real map.

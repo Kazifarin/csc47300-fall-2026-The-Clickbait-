@@ -1,4 +1,4 @@
-CAMPUS ATLAS - NATIVE FRONTEND UI UPDATE
+CAMPUS RESOURCE FINDER - NATIVE FRONTEND UI UPDATE
 Team Clickbait | CCNY | CSc 47300 | October 20, 2026
 
 CONSTRAINTS FOLLOWED
@@ -12,7 +12,7 @@ CONSTRAINTS FOLLOWED
 
 DESIGN WORK
 - Reworked the current imported project rather than restoring the former React app.
-- Created the Campus Atlas identity and a source-owned compass/architectural icon.
+- Created the Campus Resource Finder identity and a source-owned compass/architectural icon.
 - Replaced the saturated gradient/emoji visual treatment with warm off-white,
   stone surfaces, restrained purple, dark text, and consistent custom line icons.
 - Added an editorial two-column hero with the master prompt's campus headline,

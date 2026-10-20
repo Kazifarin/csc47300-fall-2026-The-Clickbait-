@@ -1,10 +1,10 @@
 # Campus Resource Finder (CCNY) — Clickbait
 
-## Campus Atlas UI
+## Campus Resource Finder UI
 
 The current design is **HTML + native CSS + plain TypeScript**, compiled to a small browser script. There is **no React, frontend framework, UI library, icon package, animation library, backend, database, or API connection**. TypeScript and esbuild are development tools only.
 
-The Campus Atlas design adapts the original visual brief with warm off-white surfaces, restrained purple accents, larger typography, a custom SVG architectural campus model, ambient CSS particles, and damped pointer perspective built with requestAnimationFrame. It includes keyboard-friendly category shortcuts, category/open-now filters, saved-resource counts, light/dark themes, and a responsive mobile menu. Resource cards enter with a brief stagger, discovery cards and controls respond to hover/press, and theme changes transition smoothly. Motion follows reduced-motion preferences. Native HTML dialogs handle reporting.
+The Campus Resource Finder design adapts the original visual brief with warm off-white surfaces, restrained purple accents, larger typography, a custom SVG architectural campus model, ambient CSS particles, and damped pointer perspective built with requestAnimationFrame. It includes keyboard-friendly category shortcuts, category/open-now filters, saved-resource counts, light/dark themes, and a responsive mobile menu. Resource cards enter with a brief stagger, discovery cards and controls respond to hover/press, and theme changes transition smoothly. Motion follows reduced-motion preferences. Native HTML dialogs handle reporting.
 
 All resource details are sample data bundled in `src/data.ts`. The UI labels them as a classroom demonstration. Bookmarks, theme choices, and reports stay in localStorage on the current browser and origin. No report is sent to the college. Availability uses America/New_York; holidays and other exceptions are not included.
 
