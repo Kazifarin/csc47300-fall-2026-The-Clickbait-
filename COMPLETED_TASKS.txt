@@ -1,0 +1,226 @@
+CAMPUS ATLAS - COMPLETED TASKS AND HANDOFF
+Campus Resource Finder for CCNY | Team Clickbait
+CSc 47300 - Professor Isiah Garrow - Fall 2026
+Work completed: October 19, 2026 (America/New_York)
+
+RESULT
+Built a complete frontend classroom demonstration from the supplied master brief.
+The original repository contained only the proposal README and an empty .dist
+directory. There was no existing React application or functionality to migrate.
+All application source is now TypeScript/TSX. No backend was introduced.
+
+1. REPOSITORY AUDIT AND FOUNDATION
+- Inspected the existing files, Git status, proposal, and full attached brief.
+- Checked for applicable repository instructions; none were found.
+- Established a Vite + React + strict TypeScript application.
+- Configured Tailwind CSS v4 with the Vite plugin and shared CSS design tokens.
+- Installed React, React DOM, Lucide, Motion, Radix Dialog/Slot, CVA, clsx, and
+  tailwind-merge; added typed Vite configuration and import aliases.
+- Added shadcn/ui configuration and a source-owned adapted Button component.
+- Added a selective source adaptation of Aceternity's perspective-card pattern.
+- Configured the official Aceternity registry in components.json.
+- Added lockfile, ignore rules, source formatting, build and test scripts.
+- Updated the test runner to resolve all dependency advisories reported by the
+  first installation. The subsequent installation audit reported 0 vulnerabilities.
+- Added descriptive page metadata and an original compass/spire favicon.
+
+2. VISUAL DESIGN AND LANDING PAGE
+- Created Campus Atlas branding with a custom compass/Gothic-spire logo.
+- Used warm off-white, stone, dark text, restrained purple, and neutral surfaces.
+- Built sticky navigation for Discover, Explore Map, Categories, and Saved.
+- Built the editorial two-column desktop hero and deliberately stacked mobile hero.
+- Added the requested campus headline, human-written support copy, and main search.
+- Created original SVG architectural artwork: layered base, building volumes,
+  tower roof forms, trees, paths, service pins, shadows, and floating callouts.
+- Added gentle model/pin motion and spring-damped pointer perspective.
+- Built a custom ambient particle system without per-frame React state updates.
+- Paused model and particle animations offscreen and when the document is hidden.
+- Reduced particle density and stabilized the model on mobile.
+- Honored reduced-motion preferences in CSS, Motion, and pointer interactions.
+- Built six interactive category cards with an editorial desktop arrangement.
+- Used the perspective-card adaptation only for the featured Tutoring category.
+- Added a closing invitation and a footer crediting the team and course.
+- Used original artwork and system fonts: no remote image/font dependencies.
+
+3. SEARCH - FERDOSI HOSSAIN
+- Added live matching by resource name, category, building, description, and tags.
+- Made search case-insensitive and normalized repeated/leading/trailing whitespace.
+- Added focus suggestions for writing center, tutoring, and food pantry.
+- Highlighted contiguous matching name/category text in resource cards.
+- Kept the hero and explorer search synchronized through shared state.
+- Added All Resources and six category filters.
+- Combined category, query, saved-only, and open-now constraints correctly.
+- Added result counts, campus-order/name sorting, search clearing, and reset controls.
+- Added useful no-results states and a return to all resources.
+- Made every category discovery card apply a functional filter.
+
+4. HOURS - KAZI FARIN MEHZABIN
+- Added typed weekly schedules and a readable seven-day detail view.
+- Highlighted the current Eastern Time day and used 12-hour display formatting.
+- Calculated current status with America/New_York through Intl.DateTimeFormat.
+- Added open, closed, closing-soon, and unconfirmed-hours states.
+- Added closing times and next-opening messages when known.
+- Supported split intervals, closed days, overnight intervals, and unknown hours.
+- Refreshed time-dependent state every 30 seconds without requiring page refresh.
+- Excluded resources with unconfirmed hours from open-now filtering.
+- Clearly labeled all example schedules; did not claim real holiday coverage.
+
+5. REVIEWS - AUNG LATT
+- Added accessible native one-to-five-star radio controls and selected feedback.
+- Added optional name, anonymous fallback, and a required written review.
+- Validated rating and trimmed review length (10-1,000 characters).
+- Added labels, required semantics, character count, errors, and success feedback.
+- Added review lists, dates, derived average ratings, and rating distributions.
+- Persisted submitted reviews in localStorage and validated loaded records.
+- Kept user submissions separate from the two clearly labeled fictional examples.
+- Displayed meaningful empty-review states and a Write a Review focus action.
+
+6. RESPONSIVE EXPERIENCE - ATM RAHAT HOSSAIN
+- Built desktop hero, category discovery, and roughly 40/60 list/map explorer.
+- Adapted spacing, typography, navigation, cards, and split panels for tablets.
+- Added a mobile menu and a List / Map segmented control.
+- Added full-width mobile resource details and touch-sized core actions.
+- Used 16px mobile search/form input text to avoid unwanted input zoom on iOS.
+- Added visible focus treatment, a skip link, semantic structure, and live feedback.
+- Used Radix Dialog for modal focus trapping and Escape dismissal.
+- Explicitly restored focus to the opener after closing resource details.
+- Found and fixed narrow-phone horizontal overflow from decorative model rings.
+- Added meaningful accessible names to map markers, icon actions, and rating meters.
+
+7. INTERACTIVE MAP - ADDITIONAL FEATURE
+- Built an offline SVG campus schematic with local artwork and resource positions.
+- Used category-specific icons as well as color for marker identification.
+- Added selectable markers, selected/highlighted states, and resource previews.
+- Synchronized resource-card selection/hover with map highlights.
+- Brought the selected result into view when a map marker is chosen.
+- Added preview-to-details navigation while retaining existing filter state.
+- Added zoom in, zoom out, reset, and native scroll/keyboard panning when zoomed.
+- Added responsive map controls and a dedicated map view on mobile.
+- Labeled the map as illustrative, not to scale, and non-geographic.
+- Removed reliance on tile services, geographic APIs, and classroom network access.
+- Added Google Maps place-search links, explicitly requiring destination confirmation.
+
+8. SAVED RESOURCES - OPTIONAL FEATURE COMPLETED
+- Added save/unsave controls on cards and details.
+- Added saved count, dedicated Saved mode, and a thoughtful empty state.
+- Allowed saved cards to open the same resource details.
+- Persisted bookmarks locally and validated stored resource IDs.
+- Added a visible warning when browser storage writes are unavailable.
+- Used no authentication or account requirement.
+
+9. DATA INTEGRITY AND ARCHITECTURE
+- Added typed models for resources, categories, hours, reviews, and filters.
+- Used eight example resources across all six required support categories.
+- Used one shared resource dataset for cards, map, details, and saved resources.
+- Separated scheduling, filtering, persistence, UI controls, model, map, and details.
+- Used simple React state rather than an unnecessary global-state dependency.
+- Added no application JavaScript/JSX files, backend APIs, database, or secrets.
+- Clearly marked unverified information; invented no authoritative phone/room data.
+- Added README setup instructions, architectural guide, credits, and presentation flow.
+- Saved a project preview image at docs/campus-atlas-preview.jpg.
+
+10. VERIFICATION ACTUALLY COMPLETED
+
+Automated:
+- npm run build: PASSED, including strict TypeScript checking and Vite production build.
+- npm test: PASSED, 14 tests in 2 files.
+- npm run format:check: PASSED.
+- git diff --check: PASSED (only the informational Windows LF/CRLF notice remained).
+- Dependency installation audit after fixes: 0 vulnerabilities.
+- Checked application file extensions: no authored .js/.jsx application source.
+
+Hours tests (8):
+- Eastern Time conversion independent of local device timezone.
+- Opening/closing boundaries.
+- Closing-soon threshold.
+- Split-day lunch-gap next opening.
+- Overnight interval before/after midnight and closing boundary.
+- Unknown-hours behavior.
+- Spring-forward and fall-back timezone conversion.
+- Noon and midnight display formatting.
+
+Search tests (6):
+- Case/whitespace normalization.
+- Category/building matching.
+- Combined query, category, saved, and open filters.
+- Exclusion of unknown hours from open-now results.
+- Empty results while retaining filter constraints.
+- Saved-only results.
+
+Browser checks:
+- Inspected desktop hero and category/explorer composition.
+- Searched for mixed-case, repeated-whitespace 'WRITING center'; saw one matching result.
+- Saved the Writing Center and confirmed the count changed.
+- Submitted an empty review and verified the validation error.
+- Submitted a four-star QA review; average changed from 5.0 to 4.5.
+- Refreshed, opened Saved, and confirmed the bookmark and review persisted.
+- Selected Counseling Center on the map and verified the matching preview.
+- Zoomed the map and confirmed zoom-out became enabled; reset the map.
+- Checked mobile navigation and the List / Map switch at 390px width.
+- Opened the pantry from its mobile marker and verified unconfirmed-hours messaging.
+- Dismissed the detail sheet with Escape and verified focus returned to its opener.
+- Checked an empty search and reset, and checked the late-night open-now empty result.
+- Inspected the 768px tablet layout.
+- Inspected a 320px narrow phone; located and fixed overflow from scene orbits.
+- Rechecked narrow-screen document width after the fix; no horizontal page overflow.
+- Read browser warning/error logs after verification; none were captured.
+- Captured a final desktop preview and restored the normal browser viewport.
+
+Build output was approximately 463 kB JavaScript / 150 kB gzipped and 44 kB CSS /
+11 kB gzipped. These are build sizes, not a Lighthouse/performance score.
+
+11. IMPORTANT LIMITATIONS
+- This is a finished classroom frontend demo, not an official campus directory.
+- All schedules, building associations, and schematic positions remain unverified
+  examples. Replace them with verified information before real student use.
+- The pantry intentionally has unknown hours. Holidays, breaks, appointment slots,
+  emergency response, and exceptional closures are not modeled.
+- Map positions are percentages, not geographic coordinates; there is no turn-by-turn
+  routing. External directions use a labeled Google Maps place search.
+- Reviews/bookmarks are local to the browser and origin; they are not shared online.
+- Tabs do not synchronize changes live; refresh to pick up another tab's changes.
+- A QA entry named 'Demo QA' and a bookmark were used in the verification browser;
+  they are browser-local and are not part of the source dataset.
+- Offline-ready means no network data/tile/image/font calls for core functionality
+  once loaded. There is no service worker/PWA installation or offline-cache guarantee.
+- No real-device or Safari testing, full WCAG audit, Lighthouse benchmark, or actual
+  external destination verification was performed.
+- No Git commit, push, PR, or public deployment was requested or performed.
+- No token exhaustion was necessary: the requested implementation and report were
+  completed and verified before ending the session.
+
+12. RUN AND CONTINUE
+From this repository:
+  npm ci
+  npm run dev
+
+Use the URL printed by Vite (normally http://127.0.0.1:5173).
+The browser verification server was started at http://127.0.0.1:5174.
+Use npm run build, npm test, and npm run format:check for future verification.
+
+Key files:
+- README.md: setup, data honesty, architecture, presentation guidance, and credits.
+- src/App.tsx: navigation, shared state, discovery, and resource explorer.
+- src/data/resources.ts: resources and fictional sample reviews.
+- src/lib/hours.ts: scheduling calculations.
+- src/lib/search.ts: combined filters.
+- src/components/resources/ResourceDetail.tsx: details, weekly hours, reviews/form.
+- src/components/map/CampusMap.tsx: offline interactive schematic.
+- src/components/hero/CampusScene.tsx: original architectural model and particles.
+- src/styles.css: tokens, layouts, responsive behavior, reduced motion.
+- docs/campus-atlas-preview.jpg: visual preview.
+- This file: completed-task record and verification/limitations.
+
+FOLLOW-UP - LARGER TYPOGRAPHY
+- Increased text sizes throughout navigation, search, descriptions, category cards,
+  resource cards, map previews, schedules, review forms, and footer metadata.
+- Increased section-heading sizes while preserving the large hero headline.
+- Expanded category-card rows so larger copy has enough room on tablet/mobile.
+- Kept mobile form inputs at a readable 16px minimum.
+- Rebuilt successfully and inspected the enlarged tablet/mobile UI in the browser.
+- Confirmed the tested narrow viewport has no horizontal page overflow or clipped
+  category text.
+- Motion for React remains in use for the hero entrance and spring-based pointer
+  tilt. CSS supplies floating-model, particle, and sheet-transition animations.
+
+END OF REPORT
