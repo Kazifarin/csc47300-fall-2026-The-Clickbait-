@@ -1,0 +1,110 @@
+CAMPUS ATLAS - NATIVE FRONTEND UI UPDATE
+Team Clickbait | CCNY | CSc 47300 | October 20, 2026
+
+CONSTRAINTS FOLLOWED
+- No React or other frontend framework.
+- No Tailwind, shadcn, Aceternity, Motion, Lucide, or other UI/animation libraries.
+- No backend, database, API, authentication, or server-side application logic.
+- All displayed resources remain bundled local sample data.
+- Saved resources, reports, and theme choices stay in browser localStorage.
+- TypeScript and esbuild are the only development dependencies; the production
+  dependency tree is empty.
+
+DESIGN WORK
+- Reworked the current imported project rather than restoring the former React app.
+- Created the Campus Atlas identity and a source-owned compass/architectural icon.
+- Replaced the saturated gradient/emoji visual treatment with warm off-white,
+  stone surfaces, restrained purple, dark text, and consistent custom line icons.
+- Added an editorial two-column hero with the master prompt's campus headline,
+  prominent search, category shortcuts, and a live Eastern Time clock.
+- Drew original isometric SVG campus buildings, towers, paths, trees and pins.
+- Added slow CSS model movement and ambient particles behind the illustration.
+- Added smoothly damped pointer perspective using requestAnimationFrame.
+- Paused background animations offscreen and when the document is hidden.
+- Honored reduced-motion preferences; simplified the model and particles on phones.
+- Built category-discovery cards for academics, wellness, essentials, and careers.
+- Restyled resource cards, bookmarks, status indicators, weekly schedules,
+  empty states, native report dialogs, report log, team section, and footer.
+- Preserved the light/dark switch and accent-color picker in the new design.
+- Dark mode now follows the operating-system preference until the user chooses a
+  theme; the explicit toggle remembers the choice and animates the color change.
+- Added a short stagger as resource cards enter, responsive hover/press feedback
+  on cards and controls, and a small icon reaction on discovery cards.
+- Kept all motion in native CSS/browser APIs and disabled animation under reduced
+  motion preferences.
+- Added deliberate desktop, tablet, phone, and narrow-phone layouts.
+
+FUNCTIONAL/UI IMPROVEMENTS
+- Preserved original search logic, keyboard suggestions and matched-text highlighting.
+- Added functional category shortcuts and a category select for all nine categories.
+- Added an open-now checkbox and combined category/query/saved/open filtering.
+- Added filter reset, useful empty states, and a derived saved-resource count.
+- Retained save/unsave persistence, weekly-hours expansion, anonymous report form,
+  local report log, and the existing team ownership of feature modules.
+- Made hours and current-day highlighting use America/New_York instead of the
+  viewer's device timezone.
+- Kept search and primary interactions responsive without animating whole lists.
+- Improved keyboard focus recovery after closing the report dialog and mobile menu.
+- Corrected dialog backdrop handling so clicking dialog padding does not close it.
+- Added explicit classroom-demo, unverified-hours and browser-local-report messages.
+- Retained the compiled dist/app.js so the project can run as static files.
+
+VERIFICATION
+- npm run build PASSED, including the strict TypeScript check.
+- CSS was checked and formatted with the existing esbuild development tool.
+- Six scheduling assertions PASSED: Eastern opening boundary, closing soon,
+  closing boundary, winter-time conversion and campus-day highlighting.
+- npm ls --omit=dev --depth=0 confirmed an empty production dependency tree.
+- git diff --check PASSED after removing a trailing empty line.
+- Browser verified live case/whitespace-normalized writing-center search.
+- Browser verified keyboard ArrowDown/Enter suggestion selection.
+- Browser verified weekly-hours expansion and the seven-day schedule.
+- Browser verified category discovery, category select, and combined open-now filter.
+- Browser verified empty-result messaging and reset.
+- Browser verified save/unsave and persistence after refresh.
+- Browser verified report submit remains disabled until a reason is chosen.
+- Browser verified a local test report, confirmation, report-log persistence,
+  and cleanup through Mark all reviewed. No report was transmitted anywhere.
+- Browser verified light/dark switching and accent selection, restoring Lavender
+  and light mode for the final preview.
+- Browser verified mobile menu, reporting form, Escape dismissal and focus recovery.
+- Browser checked desktop, tablet-sized, 390px phone and 320px narrow-phone layouts.
+- Found and corrected cramped narrow-screen category copy with a single-column
+  discovery layout at 360px and below. Final narrow check: no horizontal page
+  overflow and no category text outside its card.
+- Browser warning/error log checks returned no errors or warnings during testing.
+
+RUNNING PREVIEW
+- http://127.0.0.1:8080/
+- The Python command serves static files locally; it is not an application backend.
+- The old port 8000 preview served the previous page, so a fresh server was started
+  on port 8080 with the repository directory explicitly specified.
+- Reload the preview after editing; rebuild TypeScript with npm run build.
+
+FILES
+- index.html: semantic page composition and native controls/dialogs.
+- css/styles.css: design tokens, themes, components, animation and breakpoints.
+- assets/campus-model.svg: original campus illustration, not a geographic map.
+- src/icons.ts: source-owned SVG icon helpers.
+- src/visuals.ts: particles, visibility handling and native damped perspective.
+- src/main.ts: existing card renderer plus combined filters and category navigation.
+- src/hours.ts: Eastern Time status and highlighted campus day.
+- src/responsive.ts: mobile menu and accessible back-to-top behavior.
+- src/theme.ts: native theme/accent controls and line-icon toggle.
+- src/main.ts: existing search, card, filter, and category interaction logic.
+- src/report.ts: existing local reporting with improved focus and backdrop behavior.
+- README.md: native-stack explanation, setup, data honesty, UI guide and limitations.
+- dist/app.js: regenerated browser bundle (approximately 36 kB).
+
+LIMITATIONS
+- Locations/hours remain unverified sample data; holiday exceptions are not modeled.
+- The scene is an illustrative architectural model, not a navigable geographic map.
+- Reports/bookmarks are local to the current browser and origin, not shared online.
+- No new student-review system or backend workflow was added.
+- No full WCAG certification, real-device/Safari audit or performance benchmark
+  was claimed. Reduced-motion behavior is implemented in code/CSS; dedicated
+  browser emulation of that preference was not part of the executed checks.
+- Changes remain in the current branch's working tree; no commit, push or public
+  deployment was performed for this UI update.
+
+END OF REPORT

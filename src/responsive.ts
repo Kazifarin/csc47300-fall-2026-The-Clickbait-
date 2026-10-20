@@ -25,7 +25,7 @@ export function initResponsive(): void {
     if ((e.target as HTMLElement).closest("a, button")) setMenu(false);
   });
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") setMenu(false);
+    if (e.key === "Escape" && nav.classList.contains('open')) { setMenu(false); menuBtn.focus(); }
   });
   DESKTOP.addEventListener("change", (e) => {
     if (e.matches) setMenu(false);
@@ -36,6 +36,6 @@ export function initResponsive(): void {
     toTop.classList.toggle("show", window.scrollY > 600);
   };
   window.addEventListener("scroll", onScroll, { passive: true });
-  toTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+  toTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' }));
   onScroll();
 }

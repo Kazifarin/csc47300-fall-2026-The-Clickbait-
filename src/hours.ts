@@ -1,5 +1,5 @@
 // FEATURE 2 — Hours and Open-Now Status (Kazi Mehzabin)
-// Compares the device's clock to each resource's stored hours.
+// Compares the current campus time (America/New_York) to stored example hours.
 // No outside service needed — runs instantly and for free.
 
 import type { DayIndex, OpenStatus, TimeRange, WeeklyHours } from "./types.js";
@@ -11,6 +11,12 @@ export const DAY_LONG = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday",
 const WEEK_ORDER: DayIndex[] = [1, 2, 3, 4, 5, 6, 0];
 
 export const CLOSING_SOON_MINUTES = 60;
+
+function campusClock(now: Date): { day: DayIndex; minute: number } {
+  const parts = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', weekday: 'short', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).formatToParts(now);
+  const value = (type: Intl.DateTimeFormatPartTypes): string => parts.find(p => p.type === type)?.value ?? '';
+  return { day: DAY_SHORT.indexOf(value('weekday') as typeof DAY_SHORT[number]) as DayIndex, minute: Number(value('hour')) * 60 + Number(value('minute')) };
+}
 
 export function toMinutes(time: string): number {
   const [h, m] = time.split(":").map(Number);
@@ -32,8 +38,7 @@ function rangeText(range: TimeRange | undefined): string {
 }
 
 export function getStatus(hours: WeeklyHours, now: Date): OpenStatus {
-  const day = now.getDay() as DayIndex;
-  const current = now.getHours() * 60 + now.getMinutes();
+  const { day, minute: current } = campusClock(now);
   const today = hours[day];
 
   if (today) {
@@ -73,7 +78,7 @@ export interface WeekRow {
 }
 
 export function weeklyRows(hours: WeeklyHours, now: Date): WeekRow[] {
-  const today = now.getDay();
+  const today = campusClock(now).day;
   return WEEK_ORDER.map((d) => ({
     day: DAY_LONG[d],
     text: rangeText(hours[d]),

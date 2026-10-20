@@ -1,6 +1,7 @@
 // Theme: light/dark toggle + accent color picker (part of the "coolness" polish)
 
 import { $, load, save } from "./utils.js";
+import { icon } from './icons.js';
 
 type Theme = "light" | "dark";
 
@@ -10,7 +11,7 @@ interface Accent {
 }
 
 export const ACCENTS: Accent[] = [
-  { name: "Lavender", color: "#6d5bd0" },
+  { name: "Lavender", color: "#603c91" },
   { name: "Ocean", color: "#1f7a9e" },
   { name: "Sunset", color: "#e0582b" },
   { name: "Forest", color: "#2f8a57" },
@@ -20,7 +21,7 @@ export const ACCENTS: Accent[] = [
 function applyTheme(theme: Theme): void {
   document.documentElement.dataset.theme = theme;
   const btn = $<HTMLButtonElement>("#themeBtn");
-  btn.textContent = theme === "dark" ? "☀️" : "🌙";
+  btn.innerHTML = icon(theme === 'dark' ? 'sun' : 'moon');
   btn.setAttribute("aria-label", theme === "dark" ? "Switch to light mode" : "Switch to dark mode");
 }
 
@@ -32,14 +33,16 @@ function applyAccent(color: string): void {
 }
 
 export function initTheme(): void {
-  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-  let theme = load<Theme>("crf_theme", prefersDark ? "dark" : "light");
+  const preferredTheme: Theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  let theme = load<Theme>("crf_theme", preferredTheme);
   applyTheme(theme);
 
   $<HTMLButtonElement>("#themeBtn").addEventListener("click", () => {
     theme = theme === "dark" ? "light" : "dark";
+    document.documentElement.dataset.themeTransition = "true";
     applyTheme(theme);
     save("crf_theme", theme);
+    window.setTimeout(() => delete document.documentElement.dataset.themeTransition, 320);
   });
 
   const swatches = $<HTMLDivElement>("#swatches");

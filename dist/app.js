@@ -1,17 +1,6 @@
 "use strict";
 (() => {
   // src/data.ts
-  var CATEGORY_COLORS = {
-    Academic: "#6d5bd0",
-    "Basic Needs": "#e07a2e",
-    Career: "#1f7a9e",
-    Wellness: "#2f9e6e",
-    Money: "#c2417a",
-    Library: "#8a5a2b",
-    Accessibility: "#3b6fd6",
-    International: "#0f9488",
-    Tech: "#5c6b7a"
-  };
   var weekdays = (open, close) => ({
     1: { open, close },
     2: { open, close },
@@ -357,6 +346,11 @@
   var DAY_LONG = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
   var WEEK_ORDER = [1, 2, 3, 4, 5, 6, 0];
   var CLOSING_SOON_MINUTES = 60;
+  function campusClock(now) {
+    const parts = new Intl.DateTimeFormat("en-US", { timeZone: "America/New_York", weekday: "short", hour: "2-digit", minute: "2-digit", hourCycle: "h23" }).formatToParts(now);
+    const value = (type) => parts.find((p) => p.type === type)?.value ?? "";
+    return { day: DAY_SHORT.indexOf(value("weekday")), minute: Number(value("hour")) * 60 + Number(value("minute")) };
+  }
   function toMinutes(time) {
     const [h, m] = time.split(":").map(Number);
     return (h ?? 0) * 60 + (m ?? 0);
@@ -373,8 +367,7 @@
     return range ? `${formatTime(range.open)}\u2013${formatTime(range.close)}` : "Closed";
   }
   function getStatus(hours, now) {
-    const day = now.getDay();
-    const current = now.getHours() * 60 + now.getMinutes();
+    const { day, minute: current } = campusClock(now);
     const today = hours[day];
     if (today) {
       const open = toMinutes(today.open);
@@ -403,7 +396,7 @@
     return { kind: "closed", label: "Closed", detail: "No hours listed" };
   }
   function weeklyRows(hours, now) {
-    const today = now.getDay();
+    const today = campusClock(now).day;
     return WEEK_ORDER.map((d) => ({
       day: DAY_LONG[d],
       text: rangeText(hours[d]),
@@ -517,6 +510,9 @@
       save(KEY, reports);
       form.hidden = true;
       $("#reportThanks").hidden = false;
+      const confirmation = $("#reportThanks h3");
+      confirmation.tabIndex = -1;
+      confirmation.focus();
       renderLog();
       onChange();
     });
@@ -525,7 +521,8 @@
     );
     document.querySelectorAll("dialog").forEach(
       (d) => d.addEventListener("click", (e) => {
-        if (e.target === d) d.close();
+        const rect = d.getBoundingClientRect();
+        if (e.target === d && (e.clientX < rect.left || e.clientX > rect.right || e.clientY < rect.top || e.clientY > rect.bottom)) d.close();
       })
     );
     $("#logCopy").addEventListener("click", async () => {
@@ -544,7 +541,10 @@
       onChange();
       showToast("All reports marked as reviewed");
     });
-    dialog.addEventListener("close", () => target = null);
+    dialog.addEventListener("close", () => {
+      if (target) document.querySelector(`[data-action="report"][data-id="${target.id}"]`)?.focus({ preventScroll: true });
+      target = null;
+    });
     renderLog();
   }
 
@@ -564,7 +564,10 @@
       if (e.target.closest("a, button")) setMenu(false);
     });
     document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") setMenu(false);
+      if (e.key === "Escape" && nav.classList.contains("open")) {
+        setMenu(false);
+        menuBtn.focus();
+      }
     });
     DESKTOP.addEventListener("change", (e) => {
       if (e.matches) setMenu(false);
@@ -573,7 +576,7 @@
       toTop.classList.toggle("show", window.scrollY > 600);
     };
     window.addEventListener("scroll", onScroll, { passive: true });
-    toTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+    toTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" }));
     onScroll();
   }
 
@@ -590,9 +593,41 @@
     return favorites.has(id);
   }
 
+  // src/icons.ts
+  var paths = {
+    compass: '<path d="m12 3 8 18-8-4-8 4Z"/><path d="M10 16V10l2-3 2 3v6"/>',
+    search: '<circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5"/>',
+    arrow: '<path d="M5 12h14m-6-6 6 6-6 6"/>',
+    diagonal: '<path d="M6 18 18 6M6 6h12v12"/>',
+    book: '<path d="M12 6v15M12 6C9 3 5 3 2 4v15c4-1 7 0 10 2 3-2 6-3 10-2V4c-3-1-7-1-10 2Z"/>',
+    heart: '<path d="M20.5 5.5a5 5 0 0 0-7 0L12 7l-1.5-1.5a5 5 0 0 0-7 7L12 21l8.5-8.5a5 5 0 0 0 0-7Z"/>',
+    bag: '<path d="M4 8h16l1 13H3ZM8 8V6a4 4 0 0 1 8 0v2"/><path d="M8 12v1m8-1v1"/>',
+    briefcase: '<rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V4h8v3M3 12l9 3 9-3m-9 1v4"/>',
+    pin: '<path d="M19 10c0 5-7 12-7 12S5 15 5 10a7 7 0 1 1 14 0Z"/><circle cx="12" cy="10" r="2.5"/>',
+    clock: '<circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/>',
+    bookmark: '<path d="M6 3h12v19l-6-4-6 4Z"/>',
+    moon: '<path d="M20.5 14A9 9 0 0 1 10 3.5 9 9 0 1 0 20.5 14Z"/>',
+    sun: '<circle cx="12" cy="12" r="4"/><path d="M12 1v2m0 18v2M1 12h2m18 0h2M4 4l2 2m12 12 2 2M4 20l2-2M18 6l2-2"/>',
+    chevron: '<path d="m6 9 6 6 6-6"/>',
+    flag: '<path d="M5 22V3m0 1c5-4 9 4 15 0v11c-6 4-10-4-15 0"/>',
+    monitor: '<rect x="2" y="3" width="20" height="14" rx="2"/><path d="M12 17v5m-5 0h10"/>',
+    globe: '<circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><path d="M3 12h18"/>',
+    users: '<circle cx="9" cy="7" r="3"/><path d="M3 21v-3a6 6 0 0 1 12 0v3M16 4a3 3 0 0 1 0 6m2 4c3 1 3 4 3 7"/>',
+    wallet: '<path d="M20 8H5a3 3 0 0 1 0-6h13v6M3 5v14a2 2 0 0 0 2 2h15V8M20 12h-5v5h5"/>'
+  };
+  function icon(name) {
+    return `<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths[name]}</svg>`;
+  }
+  function paintIcons() {
+    document.querySelectorAll("[data-icon]").forEach((el) => {
+      const name = el.dataset.icon;
+      if (name && name in paths) el.innerHTML = icon(name);
+    });
+  }
+
   // src/theme.ts
   var ACCENTS = [
-    { name: "Lavender", color: "#6d5bd0" },
+    { name: "Lavender", color: "#603c91" },
     { name: "Ocean", color: "#1f7a9e" },
     { name: "Sunset", color: "#e0582b" },
     { name: "Forest", color: "#2f8a57" },
@@ -601,7 +636,7 @@
   function applyTheme(theme) {
     document.documentElement.dataset.theme = theme;
     const btn = $("#themeBtn");
-    btn.textContent = theme === "dark" ? "\u2600\uFE0F" : "\u{1F319}";
+    btn.innerHTML = icon(theme === "dark" ? "sun" : "moon");
     btn.setAttribute("aria-label", theme === "dark" ? "Switch to light mode" : "Switch to dark mode");
   }
   function applyAccent(color) {
@@ -611,13 +646,15 @@
     );
   }
   function initTheme() {
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    let theme = load("crf_theme", prefersDark ? "dark" : "light");
+    const preferredTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    let theme = load("crf_theme", preferredTheme);
     applyTheme(theme);
     $("#themeBtn").addEventListener("click", () => {
       theme = theme === "dark" ? "light" : "dark";
+      document.documentElement.dataset.themeTransition = "true";
       applyTheme(theme);
       save("crf_theme", theme);
+      window.setTimeout(() => delete document.documentElement.dataset.themeTransition, 320);
     });
     const swatches = $("#swatches");
     swatches.innerHTML = ACCENTS.map(
@@ -632,8 +669,65 @@
     applyAccent(load("crf_accent", ACCENTS[0].color));
   }
 
+  // src/visuals.ts
+  function initVisuals() {
+    const scene = document.getElementById("campusScene");
+    const tilt = document.getElementById("sceneTilt");
+    const particles = document.getElementById("particles");
+    if (!scene || !tilt || !particles) return;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const desktop = window.matchMedia("(min-width: 768px) and (pointer: fine)");
+    for (let i = 0; i < 22; i++) {
+      const dot = document.createElement("i");
+      dot.style.cssText = `left:${(i * 37 + 9) % 100}%;top:${(i * 23 + 13) % 100}%;--delay:${-i * 1.7}s;--duration:${14 + i % 7 * 3}s;--size:${2 + i % 3}px`;
+      particles.append(dot);
+    }
+    let visible = true, frame = 0, x = 0, y = 0, targetX = 0, targetY = 0;
+    function stop() {
+      cancelAnimationFrame(frame);
+      frame = 0;
+    }
+    function tick() {
+      x += (targetX - x) * 0.075;
+      y += (targetY - y) * 0.075;
+      tilt.style.transform = `rotateX(${x.toFixed(3)}deg) rotateY(${y.toFixed(3)}deg)`;
+      if (Math.abs(targetX - x) + Math.abs(targetY - y) > 5e-3) frame = requestAnimationFrame(tick);
+      else frame = 0;
+    }
+    function sync() {
+      const active = visible && !document.hidden && !reduced.matches;
+      scene.dataset.active = String(active);
+      if (!active || !desktop.matches) {
+        stop();
+        targetX = targetY = x = y = 0;
+        tilt.style.transform = "";
+      }
+    }
+    const observer = new IntersectionObserver(([entry]) => {
+      visible = entry?.isIntersecting ?? false;
+      sync();
+    });
+    observer.observe(scene);
+    document.addEventListener("visibilitychange", sync);
+    reduced.addEventListener("change", sync);
+    desktop.addEventListener("change", sync);
+    scene.addEventListener("pointermove", (e) => {
+      if (!desktop.matches || reduced.matches || document.hidden) return;
+      const rect = scene.getBoundingClientRect();
+      targetX = -(e.clientY - rect.top - rect.height / 2) / 105;
+      targetY = (e.clientX - rect.left - rect.width / 2) / 105;
+      if (!frame) frame = requestAnimationFrame(tick);
+    });
+    scene.addEventListener("pointerleave", () => {
+      targetX = targetY = 0;
+      if (!frame && visible && !reduced.matches && desktop.matches) frame = requestAnimationFrame(tick);
+    });
+    sync();
+  }
+
   // src/main.ts
-  var state = { query: "", view: "all", expanded: /* @__PURE__ */ new Set() };
+  var state = { query: "", view: "all", expanded: /* @__PURE__ */ new Set(), category: "all", openOnly: false };
+  var categoryIcons = { Academic: "book", "Basic Needs": "bag", Career: "briefcase", Wellness: "heart", Money: "wallet", Library: "book", Accessibility: "users", International: "globe", Tech: "monitor" };
   var grid = $("#grid");
   var countEl = $("#count");
   var emptyEl = $("#empty");
@@ -649,12 +743,12 @@
     const q = state.query;
     const week = weeklyRows(r.hours, now).map((row) => `<li class="${row.isToday ? "today" : ""}"><span>${row.day}</span><span>${row.text}</span></li>`).join("");
     return `
-  <article class="card status-${status.kind}" id="res-${r.id}" data-id="${r.id}" style="--cat:${CATEGORY_COLORS[r.category]}">
+  <article class="card status-${status.kind}" id="res-${r.id}" data-id="${r.id}">
     <div class="card-media">
-      <span class="card-emoji" aria-hidden="true">${r.icon}</span>
+      <span class="card-category-icon">${icon(categoryIcons[r.category])}</span>
       <span class="cat-pill">${escapeHtml(r.category)}</span>
       <button class="star-btn" data-action="fav" data-id="${r.id}" aria-pressed="${fav}"
-        aria-label="${fav ? "Remove" : "Save"} ${escapeHtml(r.name)} ${fav ? "from" : "to"} favorites">${fav ? "\u2605" : "\u2606"}</button>
+        aria-label="${fav ? "Remove" : "Save"} ${escapeHtml(r.name)} ${fav ? "from" : "to"} favorites">${icon("bookmark")}</button>
     </div>
     <div class="card-body">
       <div class="card-top">
@@ -663,15 +757,15 @@
       </div>
       <p class="status-detail js-detail">${status.detail}</p>
       <p class="desc">${highlight(r.desc, q)}</p>
-      <p class="meta">\u{1F4CD} ${escapeHtml(r.location)}</p>
-      <p class="meta">\u{1F552} ${hoursSummary(r.hours)}</p>
+      <p class="meta">${icon("pin")} ${escapeHtml(r.location)}</p>
+      <p class="meta hours-meta">${icon("clock")} ${hoursSummary(r.hours)}</p>
       ${flags ? `<p class="flag">\u26A0\uFE0F ${flags} student report${flags > 1 ? "s" : ""} \u2014 info under review</p>` : ""}
-      <ul class="week" ${open ? "" : "hidden"} aria-label="Weekly hours">${week}</ul>
+      <ul id="week-${r.id}" class="week" ${open ? "" : "hidden"} aria-label="Weekly hours for ${escapeHtml(r.name)}">${week}</ul>
       <div class="card-actions">
-        <button class="link-btn" data-action="details" data-id="${r.id}" aria-expanded="${open}">
-          ${open ? "Hide hours \u25B4" : "Full week \u25BE"}
+        <button class="link-btn" data-action="details" data-id="${r.id}" aria-expanded="${open}" aria-controls="week-${r.id}">
+          ${open ? "Hide hours" : "Weekly hours"} ${icon("chevron")}
         </button>
-        <button class="link-btn muted" data-action="report" data-id="${r.id}">Is this info wrong?</button>
+        <button class="link-btn muted" data-action="report" data-id="${r.id}">${icon("flag")} Report an issue</button>
       </div>
     </div>
   </article>`;
@@ -681,22 +775,27 @@
     const focusKey = focused?.dataset.action ? `[data-action="${focused.dataset.action}"][data-id="${focused.dataset.id}"]` : null;
     let list = search(RESOURCES, state.query).map((h) => h.resource);
     if (state.view === "favorites") list = list.filter((r) => isFavorite(r.id));
+    if (state.category !== "all") list = list.filter((r) => r.category === state.category);
+    if (state.openOnly) list = list.filter((r) => getStatus(r.hours, /* @__PURE__ */ new Date()).kind !== "closed");
+    $("#categoryFilter").value = state.category;
+    $("#openOnly").checked = state.openOnly;
+    $("#savedCount").textContent = String(RESOURCES.filter((r) => isFavorite(r.id)).length);
     grid.innerHTML = list.map(cardHTML).join("");
     if (list.length === 0) {
       emptyEl.hidden = false;
-      countEl.textContent = "";
+      countEl.textContent = "0 resources match these filters";
       const guess = state.query ? didYouMean(RESOURCES, state.query) : null;
       if (state.view === "favorites" && !state.query) {
-        emptyEl.innerHTML = `<div class="empty-icon">\u2606</div><p>No favorites yet \u2014 tap the star on any resource to save it.</p>`;
+        emptyEl.innerHTML = `<div class="empty-icon">${icon("bookmark")}</div><h3>Keep your go-to places close.</h3><p>Tap a bookmark on any resource. It\u2019ll be waiting here next time.</p><button class="btn" data-reset>Explore all resources ${icon("arrow")}</button>`;
       } else {
         emptyEl.innerHTML = `
-        <div class="empty-icon">\u{1F50D}</div>
-        <p>No resources found \u2014 try a different term.</p>
-        ${guess ? `<button class="btn" data-suggest="${escapeHtml(guess)}">Did you mean \u201C${escapeHtml(guess)}\u201D?</button>` : ""}`;
+        <div class="empty-icon">${icon("search")}</div><h3>A different direction, perhaps?</h3>
+        <p>No resources match these filters. Try another word or a different category.</p>
+        ${guess ? `<button class="btn" data-suggest="${escapeHtml(guess)}">Did you mean \u201C${escapeHtml(guess)}\u201D?</button>` : ""}<button class="btn" data-reset>Reset filters ${icon("arrow")}</button>`;
       }
     } else {
       emptyEl.hidden = true;
-      countEl.textContent = `${list.length} resource${list.length === 1 ? "" : "s"}`;
+      countEl.textContent = `${list.length} resource${list.length === 1 ? "" : "s"}${state.view === "favorites" ? " saved" : " to explore"}`;
     }
     if (focusKey) document.querySelector(focusKey)?.focus();
   }
@@ -712,9 +811,8 @@
     });
   }
   function paintClock() {
-    const t = /* @__PURE__ */ new Date();
-    const time = t.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
-    $("#clock").textContent = `${DAY_LONG[t.getDay()]} \xB7 ${time}`;
+    const time = new Intl.DateTimeFormat("en-US", { timeZone: "America/New_York", weekday: "short", hour: "numeric", minute: "2-digit" }).format(/* @__PURE__ */ new Date());
+    $("#clock").textContent = time;
   }
   function setView(view) {
     state.view = view;
@@ -724,6 +822,51 @@
     render();
   }
   function initEvents(searchBox) {
+    const goToResults = () => {
+      $("#results").scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth", block: "start" });
+    };
+    const reset = () => {
+      state.category = "all";
+      state.openOnly = false;
+      setView("all");
+      searchBox.setQuery("");
+    };
+    $("#findResources").addEventListener("click", () => {
+      $("#searchInput").blur();
+      goToResults();
+    });
+    $("#searchInput").addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !e.defaultPrevented) {
+        e.preventDefault();
+        $("#searchInput").blur();
+        goToResults();
+      }
+    });
+    $("#categoryFilter").addEventListener("change", (e) => {
+      state.category = e.currentTarget.value;
+      render();
+    });
+    $("#openOnly").addEventListener("change", (e) => {
+      state.openOnly = e.currentTarget.checked;
+      render();
+    });
+    $("#resetFilters").addEventListener("click", () => {
+      reset();
+      goToResults();
+    });
+    document.querySelectorAll("[data-query]").forEach((button) => button.addEventListener("click", () => {
+      reset();
+      searchBox.setQuery(button.dataset.query ?? "");
+      $("#searchInput").blur();
+      goToResults();
+    }));
+    document.querySelectorAll("[data-category]").forEach((button) => button.addEventListener("click", () => {
+      reset();
+      state.category = button.dataset.category;
+      render();
+      $("#searchInput").blur();
+      goToResults();
+    }));
     grid.addEventListener("click", (e) => {
       const btn = e.target.closest("[data-action]");
       if (!btn) return;
@@ -732,7 +875,7 @@
       if (!r) return;
       if (btn.dataset.action === "fav") {
         const nowFav = toggleFavorite(id);
-        showToast(nowFav ? `\u2605 Saved ${r.name}` : `Removed ${r.name} from favorites`);
+        showToast(nowFav ? `Saved ${r.name} on this device` : `Removed ${r.name} from saved resources`);
         render();
       } else if (btn.dataset.action === "details") {
         if (state.expanded.has(id)) state.expanded.delete(id);
@@ -746,12 +889,23 @@
       (t) => t.addEventListener("click", () => setView(t.dataset.view))
     );
     emptyEl.addEventListener("click", (e) => {
+      if (e.target.closest("[data-reset]")) {
+        reset();
+        goToResults();
+        return;
+      }
       const btn = e.target.closest("[data-suggest]");
       if (btn?.dataset.suggest) searchBox.setQuery(btn.dataset.suggest);
     });
     document.querySelectorAll("[data-nav]").forEach(
       (link) => link.addEventListener("click", (e) => {
         const action = link.dataset.nav;
+        if (action === "browse") {
+          e.preventDefault();
+          reset();
+          $("#searchInput").blur();
+          goToResults();
+        }
         if (action === "favorites") {
           e.preventDefault();
           setView("favorites");
@@ -765,8 +919,17 @@
     );
   }
   function start() {
+    const categorySelect = $("#categoryFilter");
+    for (const category of new Set(RESOURCES.map((r) => r.category))) {
+      const option = document.createElement("option");
+      option.value = category;
+      option.textContent = category;
+      categorySelect.append(option);
+    }
     initTheme();
     initResponsive();
+    paintIcons();
+    initVisuals();
     initReports(render);
     const searchBox = initSearchBox({
       input: $("#searchInput"),
@@ -778,6 +941,9 @@
         render();
       },
       onPick: (r) => {
+        state.category = "all";
+        state.openOnly = false;
+        setView("all");
         requestAnimationFrame(() => {
           const card = document.getElementById(`res-${r.id}`);
           card?.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -791,7 +957,8 @@
     render();
     window.setInterval(() => {
       paintClock();
-      refreshStatuses();
+      if (state.openOnly) render();
+      else refreshStatuses();
     }, 3e4);
   }
   start();
