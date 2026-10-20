@@ -1,6 +1,6 @@
 // FEATURE 3 — Report Outdated Info (Aung Latt)
-// Anonymous, no-login reports. Saved in the browser for now (frontend only);
-// in the final project this can POST to a backend instead.
+// Anonymous, no-login UI demo. Reports are stored only in this browser.
+// There is no server, database, or outgoing report submission.
 
 import type { IssueReport, ReportReason, Resource } from "./types.js";
 import { $, escapeHtml, load, save, showToast } from "./utils.js";
@@ -116,6 +116,8 @@ export function initReports(changed: () => void): void {
     save(KEY, reports);
     form.hidden = true;
     $<HTMLElement>("#reportThanks").hidden = false;
+    const confirmation = $<HTMLElement>('#reportThanks h3');
+    confirmation.tabIndex = -1; confirmation.focus();
     renderLog();
     onChange();
   });
@@ -127,7 +129,8 @@ export function initReports(changed: () => void): void {
   // Click on the dark backdrop closes any dialog
   document.querySelectorAll<HTMLDialogElement>("dialog").forEach((d) =>
     d.addEventListener("click", (e) => {
-      if (e.target === d) d.close();
+      const rect = d.getBoundingClientRect();
+      if (e.target === d && (e.clientX < rect.left || e.clientX > rect.right || e.clientY < rect.top || e.clientY > rect.bottom)) d.close();
     })
   );
 
@@ -149,6 +152,9 @@ export function initReports(changed: () => void): void {
     showToast("All reports marked as reviewed");
   });
 
-  dialog.addEventListener("close", () => (target = null));
+  dialog.addEventListener("close", () => {
+    if (target) document.querySelector<HTMLButtonElement>(`[data-action="report"][data-id="${target.id}"]`)?.focus({ preventScroll: true });
+    target = null;
+  });
   renderLog();
 }

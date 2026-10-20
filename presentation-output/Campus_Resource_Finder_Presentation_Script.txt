@@ -1,0 +1,42 @@
+CAMPUS RESOURCE FINDER — PRESENTATION SCRIPT
+Team Clickbait · CSc 47300 · City College of New York
+Approximate delivery time: 4–5 minutes, plus the live demo
+
+SLIDE 1 — CAMPUS RESOURCE FINDER
+Hi everyone. We’re Team Clickbait, and this is Campus Atlas, our Campus Resource Finder for CCNY. The goal is to give students one clear place to begin when they are looking for campus support. I’ll walk through the interface, show how each assigned feature fits into it, and be clear about what this frontend prototype does today.
+
+SLIDE 2 — THE EXPERIENCE
+This is the current interface. Search sits at the top, and the discovery links offer a few common ways to browse. The results area combines category, open-now, and saved-resource filters. The campus artwork is illustrative only; it is labeled in the site so viewers do not mistake it for a real map.
+
+SLIDE 3 — SEARCH AND DISCOVERY
+The search supports resource names and types, and the suggestion list helps people narrow the query before opening a result. The category and open-now controls work together with search. A saved tab collects bookmarks. For the live demo, I’ll search for tutoring, choose a result, and then show the filters. Resource records are still bundled examples, not an official CCNY directory.
+
+SLIDE 4 — RESOURCE DETAILS
+The hours feature compares the current time in the campus timezone with the example hours on each resource. People can expand the card for the weekly schedule. Bookmarks also persist locally. A student can report an issue by selecting a reason and optionally adding a note, but this is a frontend-only project. The report is saved on the current device; staff do not receive it.
+
+SLIDE 5 — TEAM RESPONSIBILITIES
+The project README assigns these four core features to the named teammates. Ferdosi’s search, Kazi’s hours, and Aung’s reporting workflows live in the corresponding feature modules. Rahat’s responsive work is mainly in the CSS breakpoints, with the mobile menu and back-to-top behavior in responsive.ts. Each assignment has a visible frontend path in the current project. Reporting remains local because there is no backend.
+
+SLIDE 6 — HOW THE PROTOTYPE WORKS
+The project is written in HTML, CSS, and plain TypeScript. esbuild bundles the TypeScript for the browser. There is no React, UI framework, backend, database, or API connection. The example resource data ships with the page, and bookmarks, theme choice, and reports use this browser’s local storage. A local static server only serves the files; it does not supply application data.
+
+SLIDE 7 — LIVE DEMO
+For the demo, start at the search field and enter “tutoring.” Select a suggestion and point out the matching resource card. Expand weekly hours and read the open status. Then try a category or open-now filter. Bookmark one result and switch to Saved. Use the moon button in the header to show dark mode. Finally, open a report form and explain that submitting it stores a local demo entry; it does not contact the college.
+
+DEMO CLICKS
+1. Enter “tutoring” in the search field and select a suggestion.
+2. Open Weekly hours on a result.
+3. Choose a category or enable Open now.
+4. Save a result and open the Saved tab.
+5. Toggle dark mode.
+6. Open Report an issue; explain that the report is local to this browser.
+
+SLIDE 8 — SCOPE AND NEXT STEPS
+The prototype shows the assigned interface features, but the records and weekly schedules are examples. The illustration is not a map, and hours do not include holiday exceptions. Before this could be used as a real campus service, the team would need verified information and a shared report-handling process. Thank you. We’re happy to take questions.
+
+PRESENTATION NOTES
+- The site is a classroom frontend demonstration. Do not describe sample hours or locations as verified CCNY data.
+- “Open now” is calculated from bundled example schedules using Eastern Time.
+- Bookmarks, theme preferences, and reports are stored in the current browser’s local storage.
+- The report form does not send anything to CCNY staff.
+- Keep the website open at http://127.0.0.1:8080/ before the presentation if you plan to show the live demo.
