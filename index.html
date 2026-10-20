@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="Find CCNY campus resources fast and see what's open right now.">
+  <title>Campus Resource Finder · CCNY</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <!-- Compiled from src/*.ts by `npm run build` -->
+  <script defer src="dist/app.js"></script>
+</head>
+<body>
+
+<a class="skip-link" href="#results">Skip to results</a>
+
+<!-- ========== Header + nav (Responsive: collapses to ☰ on phones) ========== -->
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="#top">
+      <span class="logo" aria-hidden="true">🧭</span>
+      <span class="brand-text">Campus Resource Finder <small>CCNY</small></span>
+    </a>
+
+    <nav id="siteNav" class="site-nav" aria-label="Main">
+      <a href="#top">Search</a>
+      <a href="#results" data-nav="favorites">Favorites</a>
+      <a href="#" data-nav="log">Report log <span class="nav-count" data-report-count hidden>0</span></a>
+      <a href="#about">About</a>
+    </nav>
+
+    <div class="header-tools">
+      <button id="themeBtn" class="icon-btn" aria-label="Switch to dark mode">🌙</button>
+      <button id="menuBtn" class="icon-btn menu-btn" aria-label="Open menu" aria-expanded="false" aria-controls="siteNav">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ========== Hero ========== -->
+  <section class="hero">
+    <div class="hero-inner">
+      <p class="live-clock"><span class="live-dot"></span><span id="clock">—</span></p>
+      <h1>Find what you need on campus — <span class="accent-text">and know if it's open.</span></h1>
+      <p class="hero-sub">Tutoring, food, career help and more, all in one place.</p>
+
+      <!-- FEATURE 1: Search -->
+      <div class="search-wrap">
+        <span class="search-icon" aria-hidden="true">🔍</span>
+        <input id="searchInput" type="search" autocomplete="off"
+          placeholder="Try “tutoring”, “food”, or “Writing Center”"
+          role="combobox" aria-expanded="false" aria-controls="suggestions" aria-autocomplete="list"
+          aria-label="Search campus resources">
+        <button id="clearSearch" class="clear-btn" aria-label="Clear search" hidden>✕</button>
+        <kbd class="kbd-hint" aria-hidden="true">/</kbd>
+        <ul id="suggestions" class="suggestions" role="listbox" hidden></ul>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========== Results ========== -->
+  <section id="results" class="wrap results">
+
+
+    <div class="toolbar">
+      <div class="tabs" role="group" aria-label="Show">
+        <button class="tab" data-view="all" aria-pressed="true">All resources</button>
+        <button class="tab" data-view="favorites" aria-pressed="false">★ My favorites</button>
+      </div>
+    </div>
+
+    <p id="count" class="count" aria-live="polite"></p>
+    <div id="grid" class="grid"></div>
+    <div id="empty" class="empty" hidden></div>
+
+  </section>
+
+  <!-- ========== About ========== -->
+  <section id="about" class="wrap about">
+    <h2>About this project</h2>
+    <p>Campus resources at CCNY are spread across many websites. This app puts them in one place and tells you what's open right now. Spot something wrong? Hit <em>“Is this info wrong?”</em> on any card — no login needed.</p>
+    <div class="team">
+      <div class="member"><span>🔍</span><strong>Search</strong><small>Ferdosi Hossain</small></div>
+      <div class="member"><span>🕒</span><strong>Open-Now Status</strong><small>Kazi Mehzabin</small></div>
+      <div class="member"><span>⚠️</span><strong>Report Info</strong><small>Aung Latt</small></div>
+      <div class="member"><span>📱</span><strong>Responsive Design</strong><small>Rahat Hossain</small></div>
+    </div>
+
+    <div class="accent-picker">
+      <span>Pick a color:</span>
+      <div id="swatches" class="swatches"></div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <p>Built by <strong>Clickbait</strong> · CSc 47300 · City College of New York</p>
+</footer>
+
+<button id="toTop" class="to-top" aria-label="Back to top">↑</button>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<!-- ========== FEATURE 3: Report dialog ========== -->
+<dialog id="reportDialog" class="dialog" aria-labelledby="reportTitle">
+  <form id="reportForm" method="dialog">
+    <h3 id="reportTitle">Report an issue</h3>
+    <p id="reportResource" class="dialog-sub"></p>
+
+    <fieldset>
+      <legend>What's wrong?</legend>
+      <div id="reasonChips" class="reason-chips"></div>
+    </fieldset>
+
+    <label for="reportNote" class="field-label">Details <span class="muted">(optional)</span></label>
+    <textarea id="reportNote" rows="3" placeholder="e.g. The office closes at 4pm on Fridays now"></textarea>
+    <p class="note-count"><span id="noteCount">0/300</span></p>
+
+    <p class="muted small">Anonymous — we don't collect your name or email.</p>
+    <div class="dialog-actions">
+      <button type="button" class="btn" data-close>Cancel</button>
+      <button type="submit" id="reportSubmit" class="btn primary" disabled>Submit report</button>
+    </div>
+  </form>
+
+  <div id="reportThanks" class="thanks" hidden>
+    <div class="check">✓</div>
+    <h3>Thanks — got it!</h3>
+    <p>Your report helps keep this accurate for every CCNY student.</p>
+    <button type="button" class="btn primary" data-close>Close</button>
+  </div>
+</dialog>
+
+<!-- Team view: see submitted reports -->
+<dialog id="logDialog" class="dialog wide" aria-labelledby="logTitle">
+  <h3 id="logTitle">Report log <span class="muted small">(team view)</span></h3>
+  <p class="dialog-sub">Reports saved in this browser. In the final version these go to our database.</p>
+  <p id="logEmpty" class="muted">No reports yet 🎉</p>
+  <ul id="logList" class="log-list"></ul>
+  <div class="dialog-actions">
+    <button type="button" class="btn" id="logCopy">Copy as JSON</button>
+    <button type="button" class="btn" id="logClear">Mark all reviewed</button>
+    <button type="button" class="btn primary" data-close>Close</button>
+  </div>
+</dialog>
+
+</body>
+</html>
