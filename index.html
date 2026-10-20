@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="Find CCNY campus resources fast and see what's open right now.">
+  <title>Campus Atlas · CCNY Resource Finder</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <!-- Compiled from src/*.ts by `npm run build` -->
+  <script defer src="dist/app.js"></script>
+</head>
+<body>
+
+<a class="skip-link" href="#results">Skip to results</a>
+
+<!-- ========== Header + nav (Responsive: collapses to ☰ on phones) ========== -->
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="#top">
+      <span class="logo" data-icon="compass" aria-hidden="true"></span>
+      <span class="brand-text">Campus Atlas<span class="brand-period">.</span><small>Campus Resource Finder</small></span>
+    </a>
+
+    <nav id="siteNav" class="site-nav" aria-label="Main">
+      <a href="#results" data-nav="browse">Discover</a>
+      <a href="#categories">Categories</a>
+      <a href="#results" data-nav="favorites">Saved resources</a>
+      <a href="#about">Our project</a>
+    </nav>
+
+    <div class="header-tools">
+      <span class="campus-wordmark">Made for <strong>CCNY</strong></span>
+      <button id="themeBtn" class="icon-btn" aria-label="Switch to dark mode"></button>
+      <button id="menuBtn" class="icon-btn menu-btn" aria-label="Open menu" aria-expanded="false" aria-controls="siteNav">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ========== Hero ========== -->
+  <section class="hero" aria-labelledby="heroTitle">
+    <div class="hero-inner">
+      <div class="hero-copy">
+      <p class="eyebrow"><span class="tiny-diamond"></span>THE CITY COLLEGE OF NEW YORK</p>
+      <h1 id="heroTitle">Your campus.<br>Everything<br><span class="accent-text">within reach.</span></h1>
+      <p class="hero-sub">Find the spaces, services, and support<br class="desktop-break"> that make life at CCNY a little easier.</p>
+
+      <!-- FEATURE 1: Search -->
+      <div class="search-wrap">
+        <span class="search-icon" data-icon="search" aria-hidden="true"></span>
+        <input id="searchInput" type="search" autocomplete="off"
+          placeholder="What can we help you find?"
+          role="combobox" aria-expanded="false" aria-controls="suggestions" aria-autocomplete="list"
+          aria-label="Search campus resources">
+        <button id="clearSearch" class="clear-btn" aria-label="Clear search" hidden>✕</button>
+        <button id="findResources" class="search-go" aria-label="Find resources"><span data-icon="arrow"></span></button>
+        <ul id="suggestions" class="suggestions" role="listbox" hidden></ul>
+      </div>
+      <div class="quick"><span>Start with</span><button data-query="tutoring">Tutoring <span data-icon="diagonal"></span></button><button data-query="wellness">Wellness <span data-icon="diagonal"></span></button><button data-query="food">Food &amp; essentials <span data-icon="diagonal"></span></button></div>
+      <p class="hero-footnote"><span data-icon="compass"></span>Less searching. More finding your place.</p>
+      </div>
+      <div class="campus-scene" id="campusScene" aria-label="Illustrative campus architectural model">
+        <div class="particles" id="particles" aria-hidden="true"></div>
+        <div class="orbit orbit-one" aria-hidden="true"></div><div class="orbit orbit-two" aria-hidden="true"></div>
+        <span class="scene-kicker">A NEW PERSPECTIVE ON YOUR EVERYDAY</span>
+        <div class="scene-tilt" id="sceneTilt">
+          <div class="model-float"><img src="assets/campus-model.svg" width="640" height="500" alt="Original isometric campus illustration with stone buildings, trees, pathways, and purple location pins"></div>
+          <div class="scene-callout callout-top"><span class="callout-icon" data-icon="book"></span><span><strong>A little support.</strong><small>A whole lot of possibility.</small></span><span class="callout-dot"></span></div>
+          <div class="scene-callout callout-bottom"><span data-icon="pin"></span>Your next stop is closer than you think.</div>
+        </div>
+        <span class="scene-caption">An invitation to explore.<small>Illustrative campus model · not a geographic map</small></span>
+      </div>
+    </div>
+  </section>
+  <div class="campus-strip"><div class="wrap"><span><span class="tiny-diamond"></span>A little direction makes a big difference.</span><p class="live-clock"><span class="live-dot"></span><span id="clock">—</span><small>Eastern Time</small></p></div></div>
+
+  <section id="categories" class="wrap category-section" aria-labelledby="categoryTitle">
+    <div class="section-heading"><div><p class="eyebrow">FIND YOUR KIND OF SUPPORT</p><h2 id="categoryTitle">Whatever you need,<br>there’s a place for it.</h2></div><p>Big questions. Small hurdles. Everyday essentials.<br>There’s a whole campus in your corner.</p></div>
+    <div class="discovery-grid">
+      <button class="discovery-card featured" data-category="Academic"><span class="discovery-top"><span data-icon="book"></span><span data-icon="diagonal"></span></span><span><strong>Make room <br>for your next idea.</strong><span class="discovery-desc">Writing help, tutoring, and a fresh perspective.</span></span><span class="paper-art" aria-hidden="true"><i></i><i></i><i></i></span><span class="discovery-label">Academic support <span data-icon="arrow"></span></span></button>
+      <button class="discovery-card wellness" data-category="Wellness"><span class="discovery-top"><span data-icon="heart"></span><span data-icon="diagonal"></span></span><span><strong>You come first.</strong><span class="discovery-desc">A little care for the person behind the student.</span></span><span class="discovery-label">Health &amp; wellness</span></button>
+      <button class="discovery-card essentials" data-category="Basic Needs"><span class="discovery-top"><span data-icon="bag"></span><span data-icon="diagonal"></span></span><span><strong>The basics,<br>taken care of.</strong><span class="discovery-desc">Find a helping hand with everyday essentials.</span></span><span class="discovery-label">Food &amp; essentials</span></button>
+      <button class="discovery-card career" data-category="Career"><span class="discovery-top"><span data-icon="briefcase"></span><span data-icon="diagonal"></span></span><span><strong>Your next chapter <br>starts here.</strong><span class="discovery-desc">Good advice for what comes after college.</span></span><span class="discovery-label">Career &amp; opportunities</span></button>
+    </div>
+  </section>
+
+  <!-- ========== Results ========== -->
+  <section id="results" class="wrap results">
+    <div class="section-heading"><div><p class="eyebrow">YOUR NEXT STOP</p><h2>Good things are closer.</h2></div><p>Explore a little. Find what helps.<br><span class="demo-note">Classroom demo · confirm hours &amp; locations with CCNY.</span></p></div>
+    <div class="finder-surface">
+    <div class="toolbar">
+      <div class="tabs" role="group" aria-label="Show">
+        <button class="tab" data-view="all" aria-pressed="true">All resources</button>
+        <button class="tab" data-view="favorites" aria-pressed="false"><span data-icon="bookmark"></span>Saved <span id="savedCount" class="saved-count">0</span></button>
+      </div>
+      <label class="category-select">Category<select id="categoryFilter" aria-label="Filter by category"><option value="all">Every kind of support</option></select></label>
+      <label class="open-filter"><input type="checkbox" id="openOnly"><span>Open now <small>(demo)</small></span></label>
+      <button class="reset-filters" id="resetFilters">Reset filters <span aria-hidden="true">↺</span></button>
+    </div>
+    <div class="results-meta"><p id="count" class="count" aria-live="polite"></p><span class="results-hint"><span data-icon="bookmark"></span>Keep your go-to places close.</span></div>
+    <div id="grid" class="grid"></div>
+    <div id="empty" class="empty" hidden></div>
+    </div>
+    <div class="finder-note"><span data-icon="clock"></span>Live status follows the example weekly schedules. Holiday exceptions are not included.</div>
+  </section>
+
+  <!-- ========== About ========== -->
+  <section id="about" class="wrap about">
+    <div class="about-intro"><div><p class="eyebrow">BUILT HERE. FOR YOU.</p><h2>A campus full of possibility.<br><span>And people in your corner.</span></h2></div><div><p>Campus Atlas brings student support into one thoughtful place. A class project made by CCNY students, for the moments when a little direction helps.</p><a href="#" data-nav="log" class="text-link">View the report log <span data-report-count class="nav-count" hidden>0</span><span data-icon="diagonal"></span></a></div></div>
+    <div class="team">
+      <div class="member"><span data-icon="search"></span><small>Search &amp; discovery</small><strong>Ferdosi Hossain</strong></div>
+      <div class="member"><span data-icon="clock"></span><small>Hours &amp; availability</small><strong>Kazi Mehzabin</strong></div>
+      <div class="member"><span data-icon="flag"></span><small>Resource reporting</small><strong>Aung Latt</strong></div>
+      <div class="member"><span data-icon="monitor"></span><small>Responsive experience</small><strong>ATM Rahat Hossain</strong></div>
+    </div>
+
+    <div class="accent-picker">
+      <span>A little more you.<small>Choose your campus accent.</small></span>
+      <div id="swatches" class="swatches"></div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap"><a class="brand" href="#top"><span class="logo" data-icon="compass"></span><span class="brand-text">Campus Atlas.</span></a><p>Made with purpose by <strong>Team Clickbait.</strong><br><small>CSc 47300 · Fall 2026 · City College of New York</small></p><a href="https://www.ccny.cuny.edu/" target="_blank" rel="noreferrer">Official CCNY website <span data-icon="diagonal"></span></a></div>
+</footer>
+
+<button id="toTop" class="to-top" aria-label="Back to top">↑</button>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<!-- ========== FEATURE 3: Report dialog ========== -->
+<dialog id="reportDialog" class="dialog" aria-labelledby="reportTitle">
+  <form id="reportForm" method="dialog">
+    <h3 id="reportTitle">Report an issue</h3>
+    <p id="reportResource" class="dialog-sub"></p>
+
+    <fieldset>
+      <legend>What's wrong?</legend>
+      <div id="reasonChips" class="reason-chips"></div>
+    </fieldset>
+
+    <label for="reportNote" class="field-label">Details <span class="muted">(optional)</span></label>
+    <textarea id="reportNote" rows="3" placeholder="e.g. The office closes at 4pm on Fridays now"></textarea>
+    <p class="note-count"><span id="noteCount">0/300</span></p>
+
+    <p class="muted small">Anonymous — we don't collect your name or email.</p>
+    <div class="dialog-actions">
+      <button type="button" class="btn" data-close>Cancel</button>
+      <button type="submit" id="reportSubmit" class="btn primary" disabled>Submit report</button>
+    </div>
+  </form>
+
+  <div id="reportThanks" class="thanks" hidden>
+    <div class="check">✓</div>
+    <h3>Thanks — got it!</h3>
+    <p>Your report is saved on this device for this frontend demonstration.</p>
+    <button type="button" class="btn primary" data-close>Close</button>
+  </div>
+</dialog>
+
+<!-- Team view: see submitted reports -->
+<dialog id="logDialog" class="dialog wide" aria-labelledby="logTitle">
+  <h3 id="logTitle">Report log <span class="muted small">(team view)</span></h3>
+  <p class="dialog-sub">Reports stay in this browser. They are not sent to CCNY.</p>
+  <p id="logEmpty" class="muted">All clear. No reports saved on this device.</p>
+  <ul id="logList" class="log-list"></ul>
+  <div class="dialog-actions">
+    <button type="button" class="btn" id="logCopy">Copy as JSON</button>
+    <button type="button" class="btn" id="logClear">Mark all reviewed</button>
+    <button type="button" class="btn primary" data-close>Close</button>
+  </div>
+</dialog>
+
+</body>
+</html>

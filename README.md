@@ -1,48 +1,51 @@
-# csc47300-fall-2026-Clickbait
+# Campus Resource Finder (CCNY) — Clickbait
 
-**Team**: Clickbait  
-**Course**: CSc 47300 - Website Design  
-**Professor**: Isiah Garrow  
-**Semester**: Fall 2026
+## Campus Atlas UI
 
----
+The current design is **HTML + native CSS + plain TypeScript**, compiled to a small browser script. There is **no React, frontend framework, UI library, icon package, animation library, backend, database, or API connection**. TypeScript and esbuild are development tools only.
 
-## Project Proposal
+The Campus Atlas design adapts the original visual brief with warm off-white surfaces, restrained purple accents, larger typography, a custom SVG architectural campus model, ambient CSS particles, and damped pointer perspective built with requestAnimationFrame. It includes keyboard-friendly category shortcuts, category/open-now filters, saved-resource counts, light/dark themes, and a responsive mobile menu. Resource cards enter with a brief stagger, discovery cards and controls respond to hover/press, and theme changes transition smoothly. Motion follows reduced-motion preferences. Native HTML dialogs handle reporting.
 
-Campus Resource Finder is a website that will help CCNY students discover and access campus resources like tutoring centers, career services, mental health counseling, food pantries, and writing labs. Students will be able to search by resource type, location, or hours to find what they need. The website will feature an interactive map, a search bar, and detailed information for each resource including address, phone number, and student reviews.
+All resource details are sample data bundled in `src/data.ts`. The UI labels them as a classroom demonstration. Bookmarks, theme choices, and reports stay in localStorage on the current browser and origin. No report is sent to the college. Availability uses America/New_York; holidays and other exceptions are not included.
 
-## Planned Features
+### Preview the redesigned project
 
+```sh
+npm ci
+npm run build
+python -m http.server 8080 --bind 127.0.0.1 --directory .
+```
 
+Open `http://127.0.0.1:8080/`. Python only serves the static files locally; it is not an application backend. You can also open `index.html` directly or use your editor's static preview server. After TypeScript changes, run `npm run build` and refresh; `npm run watch` rebuilds changes automatically. No packages need to be loaded from a CDN.
 
-- **Search by name or type** — A search bar that lets students type either a specific resource ("Writing Center") or a general category ("tutoring", "food") and returns matching results in real time as they type. (Ferdosi)
+UI files: `index.html`, `css/styles.css`, `src/responsive.ts`, `src/icons.ts`, `src/visuals.ts`, `src/theme.ts`, and `assets/campus-model.svg`. Search, hours, favorites, and reporting retain the original feature modules. The model is an original illustration, not a geographical map.
 
-- **Hours and open-now status** — Each resource lists its weekly hours and shows a live indicator comparing the current time against those hours, so students know before walking over whether the office is open.(Mehzabin)
+Accessibility includes visible focus, semantic/native controls, a skip link, keyboard-operable search suggestions and dialogs, reduced-motion handling, and a simplified mobile scene. Animated elements pause offscreen and while the document is hidden. See `UI_UPDATE_REPORT.txt` for verification and limitations.
 
-- **Student reviews and ratings** — Students can leave a 1–5 star rating and a written comment on any resource. Each resource page shows its average rating and a list of past reviews to help others decide where to go.(Aung)
+CSc 47300 midterm. Frontend only, written in **TypeScript**.
 
-- **Responsive design** — The layout adapts to phone, tablet, and desktop screens, since most students will be looking this up on their phones while walking between classes.(Rahat Hossain)
+## Features & owners
+| # | Feature | Owner | File |
+|---|---------|-------|------|
+| 1 | Search by Name or Type | Ferdosi Hossain | `src/search.ts` |
+| 2 | Hours & Open-Now Status | Kazi Mehzabin | `src/hours.ts` |
+| 3 | Report Outdated Info | Aung Latt | `src/report.ts` |
+| 4 | Responsive Design | Rahat Hossain | `css/styles.css`, `src/responsive.ts` |
 
-## Tech Stack
+Shared: `src/main.ts` (connects everything), `src/data.ts` (resource list), `src/types.ts`, `src/utils.ts`, `src/favorites.ts` (star button), `src/theme.ts` (dark mode + color picker).
 
-- **Frontend**: HTML, CSS, JavaScript
-- **Backend**: Node.js with Express.js
-- **Database**: MongoDB
+## Run it
+Just double-click `index.html` (or use Live Server in VS Code). The compiled code is already in `dist/app.js`.
 
-## Development Plan
+## Change the code
+1. Install **Node.js** (nodejs.org, LTS).
+2. Open this folder in VS Code → Terminal → New Terminal:
+   ```
+   npm install
+   npm run build
+   ```
+   `npm run build` checks the TypeScript for errors and compiles everything into `dist/app.js`.
+3. Refresh the page.
 
-1. Design and plan database schema for resources
-2. Build frontend interface with HTML/CSS
-3. Create backend API with Node.js/Express
-4. Connect frontend to backend
-5. Add interactive map functionality
-6. Implement search and filter features
-7. Add review/rating system
-8. Test and deploy
-
-## Team Members
-
-- Kazi Farin Mehzabin
-- Ferdosi Hossain
-- ATM Rahat Hossain
-- Aung Latt
+## Edit flow
+Change `.ts` files in `src/` only → they compile into `dist/`. Never edit `dist/` by hand.
